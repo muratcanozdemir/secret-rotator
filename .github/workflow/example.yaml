@@ -1,0 +1,13 @@
+name: Rotate Tokens
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call-reusable-workflow:
+    uses: ./.github/workflows/rotate_tokens.yml
+    with:
+      secrets_mapping: './secrets_mapping.yaml'
+      github_app_id: ${{ secrets.GITHUB_APP_ID }}
+      github_app_private_key: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+      teams_webhook_url: ${{ secrets.TEAMS_WEBHOOK_URL }}

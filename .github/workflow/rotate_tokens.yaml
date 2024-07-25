@@ -1,0 +1,34 @@
+name: Rotate Tokens
+
+on:
+  workflow_dispatch:
+    inputs:
+      secrets_mapping:
+        description: 'Path to secrets_mapping.yaml'
+        required: true
+      github_app_id:
+        description: 'GitHub App ID'
+        required: true
+      github_app_private_key:
+        description: 'GitHub App Private Key'
+        required: true
+      teams_webhook_url:
+        description: 'Teams webhook URL'
+        required: true
+
+jobs:
+  rotate-tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq yq curl openssl
+
+      - name: Rotate Tokens
+        run: ./rotate_tokens.sh "${{ github.event.inputs.secrets_mapping }}" "${{ github.event.inputs.github_app_id }}" "${{ github.event.inputs.github_app_private_key }}" "${{ github.event.inputs.teams_webhook_url }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,3 @@
+An easy way to rotate your secrets
+
+To add more APIs, just add it in api_operation() inside rotate_tokens.sh, it should handle everything nicely.
