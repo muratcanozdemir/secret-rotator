@@ -3,7 +3,7 @@ name: Tester
 on:
   push:
     branches:
-      - *
+      - main
 
 permissions: write-all
 
