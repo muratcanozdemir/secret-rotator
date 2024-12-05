@@ -1,0 +1,29 @@
+name: Tester
+
+on:
+  push:
+    branches:
+      - *
+
+permissions: write-all
+
+jobs:
+  runs-on: ubuntu-latest
+  steps:
+  - id: get-token
+    uses: tibdex/github-app-token@v2.1.0
+    with:
+      app_id: 1066054
+      installation_retrieval_mode: id
+      installation_retrieval_payload: 57451469
+      permissions: >-
+        {"secrets": "write"}
+      private_key: ${{ secrets.PRIVATE_KEY }}
+  - run: |
+      echo "token=${{ steps.get-token.outputs.token }}" >> $GITHUB_ENV
+      curl -L \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer $token" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        https://api.github.com/repos/muratcanozdemir/secret-rotator/actions/secrets
+
